@@ -1,0 +1,23 @@
+---
+# tasks file for lb_config
+
+- name: Install Policy-CoreUtils and HAProxy
+  yum:
+    name: policycoreutils-python,haproxy
+    state: installed
+  when: inventory_hostname in groups['loadbalancers']
+
+- name: Set SELinux Boolean
+  seboolean:
+   name: haproxy_connect_any
+   state: yes
+   persistent: yes
+  when: inventory_hostname in groups['loadbalancers']
+
+- name: configure haproxy
+  template:
+    dest: /etc/haproxy/haproxy.cfg
+    src: ../templates/haproxy.cfg.j2
+  notify:
+    - restart haproxy
+  when: inventory_hostname in groups['loadbalancers']

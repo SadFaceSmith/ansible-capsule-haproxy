@@ -1,0 +1,5 @@
+[loadbalancers]
+capsule.example.com
+[capsules]
+sat6-lb-capsule-01.example.com
+sat6-lb-capsule-02.example.com
